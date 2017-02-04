@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>百度地图扩展</title>
+    <script src="../plug-in/jQuery/jquery-3.1.1.js"></script>
+    <script src="../plug-in/echarts/echarts.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+    <script src="../plug-in/echarts/bmap.min.js"></script>
+
+</head>
+<body style="height: 100%; margin: 0">
+<div id="container" style="height: 100%"></div>
+</body>
+
+<script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);// 创建一个echart实例
+
+    var uploadedDataURL = "lines-bus.json";
+
+    function convertData(sourceData) {
+        return [].concat.apply([], $.map(sourceData, function(busLine, index) {
+            var prevPt;
+            var points = [];
+            for (var i = 0; i < busLine.length; i += 2) {
+                var pt = [busLine[i], busLine[i + 1]];
+                if (i > 0) {
+                    pt = [
+                        prevPt[0] + pt[0],
+                        prevPt[1] + pt[1]
+                    ];
+                }
+                prevPt = pt;
+
+                points.push([pt[0] / 1e4, pt[1] / 1e4]);
+            }
+            return {
+                coords: points
+            };
+        }));
+    }
+
+    var option = {
+        bmap: {
+            center: [116.46, 39.92],
+            zoom: 10,
+            roam: true
+        },
+        visualMap: {
+            type: "piecewise",
+            left: 'right',
+            min: 0,
+            max: 15,
+            splitNumber: 5,
+            maxOpen: true,
+            color: ['red', 'yellow', 'green']
+        },
+        series: [{
+            type: 'lines',
+            coordinateSystem: 'bmap',
+            polyline: true,
+            silent: true,
+            lineStyle: {
+                normal: {
+                    color: '#c23531',
+                    color: 'rgb(200, 35, 45)',
+                    opacity: 0.2,
+                    width: 1
+                }
+            },
+            progressiveThreshold: 500,
+            progressive: 200
+        }]
+    };
+
+    $.getJSON(uploadedDataURL, function(rawData) {
+        option.series[0].data = convertData(rawData);
+        myChart.setOption(option);
+        //获取echart中使用的bmap实例
+        var map = myChart.getModel().getComponent('bmap').getBMap();
+        map.disableDoubleClickZoom();
+        //map.centerAndZoom("北京", 13);
+
+    });
+
+</script>
+</html>
