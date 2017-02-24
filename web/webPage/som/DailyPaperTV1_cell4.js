@@ -133,6 +133,7 @@ if (one_instance_option && typeof one_instance_option === "object") {
 
 
 var url = 'http://localhost:8082/som/rest/api/sysContractController/findSaleContractInfo?createTime=2017-02-23&callback=?';
+
 $.ajax({
     url: url,
     dataType: 'jsonp',
