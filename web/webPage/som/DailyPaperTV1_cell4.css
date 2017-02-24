@@ -1,0 +1,110 @@
+.chartTitle
+{
+    height: 30px;
+}
+
+.chartTitle_name1
+{
+    margin-left:10px;
+    display: inline;
+    font-weight:bold;
+    font-size : 16px;
+    color:#4a4a4a;
+}
+
+.chartTitle_name2
+{
+    margin-right:10px;
+    display: inline;
+    float: right;
+    font-weight:bold;
+    font-size : 16px;
+    color:#4a4a4a;
+    opacity:0.4;
+}
+
+.barTitle1
+{
+    margin-left:10px;
+    display: inline;
+    font-weight:bold;
+    font-size : 16px;
+    color:#4a4a4a;
+}
+
+.barTitle2
+{
+    margin-left:10px;
+    display: inline;
+    font-weight:bold;
+    font-size : 16px;
+    color:#ffd44c;
+}
+
+.barTitle3
+{
+    margin-left:10px;
+    display: inline;
+    font-weight:bold;
+    font-size : 16px;
+    color:#48e4bf;
+}
+
+.barTitle4
+{
+    margin-left:10px;
+    display: inline;
+    font-weight:bold;
+    font-size : 16px;
+    color:#ff6b80;
+}
+
+table
+{
+    width:100%;
+    
+    height:100%;
+    
+    border-collapse: collapse;
+    
+    border: none;
+    
+    background-color:#39424e;
+
+}
+td
+{
+   
+    border: solid #ffffff 1px;
+    
+    text-align:center;
+    
+}
+
+.barcss
+{
+    width:100%;
+    height:120px;
+    background-color:white;
+}
+
+.barcss2
+{
+    width:100%;
+    height:180px;
+    background-color:white;
+}
+
+.piecss
+{
+    width:100%;
+    height:280px;
+    background-color:white;
+}
+
+.segmentation
+{
+    width:100%;
+    height:10px;
+    background-color:#f1f2f3;
+}
