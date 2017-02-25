@@ -1,15 +1,14 @@
 /**
  * Created by wangc on 2017/2/24.
  */
-debugger;
+$(function () {
+    loadData('2017-02-23');
+});
 var saleContract_dom = document.getElementById("bar1");
 var saleContract_instance = echarts.init(saleContract_dom);
 
 // 初始本月销售合同option
 var saleContract_instance_option = {
-    title: {
-        text: '本月销售合同'
-    },
     tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -34,7 +33,13 @@ var saleContract_instance_option = {
         {
             name: '本月销售合同',
             type: 'bar',
-            data: []
+            data: [],
+            itemStyle:{
+                normal:
+                    {
+                        color:'#4990e2'
+                    }
+            }
         }
     ]
 };
@@ -93,9 +98,6 @@ var one_instance = echarts.init(one_dom);
 
 // 初始本月销售合同option
 var one_instance_option = {
-    title: {
-        text: '一程港'
-    },
     tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -120,7 +122,13 @@ var one_instance_option = {
         {
             name: '一程港',
             type: 'bar',
-            data: []
+            data: [],
+            itemStyle:{
+                normal:
+                    {
+                        color:'#ffd44c'
+                    }
+            }
         }
     ]
 };
@@ -131,32 +139,34 @@ if (one_instance_option && typeof one_instance_option === "object") {
     one_instance.setOption(one_instance_option, true);
 }
 
-
-var url = 'http://localhost:8082/som/rest/api/sysContractController/findSaleContractInfo?createTime=2017-02-23&callback=?';
-
-$.ajax({
-    url: url,
-    dataType: 'jsonp',
-    processData: false,
-    type: 'get',
-    success: function (data) {
-        if (data.returnCode == 'success') {//后台返回正确的信息
-            debugger
-            var echart_data = JSON.parse(data.resultContent);
-            set_saleContract_instance(echart_data);// 给本月销售合同赋值
-            set_one_instance(echart_data);// 给一程港柱状图赋值
-            set_customer_instance(echart_data);// 本月客户合同执行饼状图赋值
-        } else {//后台返回失败的信息
-            alert(data.message);
+function loadData(date){
+    var url = 'http://192.168.0.122:8082/som/rest/api/sysContractController/findSaleContractInfo?createTime=' + date + '&callback=?';
+    $.ajax({
+        url: url,
+        dataType: 'jsonp',
+        processData: false,
+        type: 'get',
+        success: function (data) {
+            if (data.returnCode == 'success') {//后台返回正确的信息
+                debugger
+                var echart_data = JSON.parse(data.resultContent);
+                set_saleContract_instance(echart_data);// 给本月销售合同赋值
+                set_one_instance(echart_data);// 给一程港柱状图赋值
+                set_customer_instance(echart_data);// 本月客户合同执行饼状图赋值
+            } else {//后台返回失败的信息
+                alert(data.message);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
         }
-    },
-    error: function (XMLHttpRequest, textStatus, errorThrown) {
-        alert(XMLHttpRequest.status);
-        alert(XMLHttpRequest.readyState);
-        alert(textStatus);
-    }
 
-});
+    });
+}
+
+
 
 /**
  * 给本月销售合同柱状图赋值
